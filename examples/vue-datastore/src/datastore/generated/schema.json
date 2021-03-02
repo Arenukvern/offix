@@ -24,14 +24,14 @@
         "key": "completed"
       },
       "_version": {
-        "type": "string",
+        "type": "number",
         "key": "_version",
-        "isRequired": true
+        "isRequired": false
       },
       "_lastUpdatedAt": {
         "type": "number",
         "key": "_lastUpdatedAt",
-        "isRequired": true
+        "isRequired": false
       }
     }
   },
@@ -53,14 +53,14 @@
         "isRequired": true
       },
       "_version": {
-        "type": "string",
+        "type": "number",
         "key": "_version",
-        "isRequired": true
+        "isRequired": false
       },
       "_lastUpdatedAt": {
         "type": "number",
         "key": "_lastUpdatedAt",
-        "isRequired": true
+        "isRequired": false
       }
     }
   }
