@@ -5,18 +5,26 @@
     <div style="width: 60%">
       <a-page-header
         :title="isNotToAddView ? 'Offix Todo' : 'Add Todo'"
-        @back="isNotToAddView ? null : (isToAddView = false)"
+        @back="isNotToAddView ? null : (isToAddTodoView = false)"
       >
         <template v-slot:extra v-if="isNotToAddView">
-          <a-button type="primary" @click="isToAddView = true" ghost>
+          <a-button type="primary" @click="isToAddTodoView = true" ghost>
             Add Todo
+          </a-button>
+          <a-button type="primary" @click="isToAddUserView = true" ghost>
+            Register
           </a-button>
           <a-button type="primary" danger ghost>
             {{ replicating ? "Online" : "Offline" }}
           </a-button>
         </template>
         <TodoList v-if="isNotToAddView" :todos="data" />
-        <AddTodo v-else :cancel="cancelAddTodo" />
+        <AddTodo
+          v-else-if="isToAddTodoView"
+          :user="currentUser"
+          :cancel="cancelAddTodo"
+        />
+        <AddUser v-else-if="isToAddUserView" :cancel="cancelAddUser" />
       </a-page-header>
     </div>
   </div>
@@ -26,13 +34,15 @@ import { NetworkStatusEvent } from "offix-datastore/types/replication/network/Ne
 import { computed, defineComponent, onMounted, ref, toRefs, watch } from "vue";
 import { Error, TodoList } from "./components";
 import { datastore } from "./datastore/config";
-import { useFindTodos } from "./datastore/hooks";
+import { useFindTodos, useFindUsers } from "./datastore/hooks";
 import Loading from "./components/UI/Loading.vue";
 import AddTodo from "./components/forms/AddTodo.vue";
+import AddUser from "./components/forms/AddUser.vue";
 export default defineComponent({
   name: "App",
   components: {
     AddTodo,
+    AddUser,
     Error,
     Loading,
     TodoList,
@@ -47,9 +57,14 @@ export default defineComponent({
       padding: "2em 0",
     };
     const replicating = ref(false);
-    const isToAddView = ref(false);
-    const isNotToAddView = computed(() => !isToAddView.value);
+    const isToAddTodoView = ref(false);
+    const isToAddUserView = ref(false);
+    const isNotToAddView = computed(
+      () => !isToAddTodoView.value && !isToAddUserView.value
+    );
     const { state, subscribeToUpdates } = useFindTodos();
+    const users = useFindUsers();
+    const currentUser = computed(() => users.state.value.data[0]);
     const { loading, data, error } = toRefs(state.value);
     console.log({ loading, data, error, state });
     const startReplication = () => {
@@ -77,16 +92,20 @@ export default defineComponent({
       },
       { deep: true, immediate: true }
     );
-    const cancelAddTodo = () => (isToAddView.value = false);
+    const cancelAddTodo = () => (isToAddTodoView.value = false);
+    const cancelAddUser = () => (isToAddUserView.value = false);
     return {
       containerStyle,
-      isToAddView,
+      isToAddTodoView,
       isNotToAddView,
       loading,
       replicating,
       error,
       data,
       cancelAddTodo,
+      isToAddUserView,
+      cancelAddUser,
+      currentUser,
     };
   },
 });

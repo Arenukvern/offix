@@ -7,7 +7,9 @@
   </a-col>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { Maybe } from "graphql/jsutils/Maybe";
+import { defineComponent, PropType, ref } from "vue";
+import { User } from "../../../../react-datastore/src/datastore/generated";
 import { useAddTodo } from "../../datastore/hooks";
 
 export default defineComponent({
@@ -15,6 +17,10 @@ export default defineComponent({
   props: {
     cancel: {
       type: Function,
+      required: true,
+    },
+    currentUser: {
+      type: Object as PropType<Maybe<User>>,
       required: true,
     },
   },

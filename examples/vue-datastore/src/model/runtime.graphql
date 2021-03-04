@@ -13,6 +13,10 @@ type Todo {
   completed: Boolean
   _version: String
   _lastUpdatedAt: GraphbackTimestamp
+  """
+  @manyToOne(field: todos)
+  """
+  user: User
 }
 
 """
@@ -25,6 +29,8 @@ type User {
   name: String!
   _version: String
   _lastUpdatedAt: GraphbackTimestamp
-  # TODO
-  # todos: [Todo!]!
+  """
+  @oneToMany(field: user)
+  """
+  todos: [Todo]!
 }
