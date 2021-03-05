@@ -32,6 +32,11 @@
         "type": "number",
         "key": "_lastUpdatedAt",
         "isRequired": true
+      },
+      "userId": {
+        "type": "string",
+        "key": "userId",
+        "relationship": "User"
       }
     }
   },

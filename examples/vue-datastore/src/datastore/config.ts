@@ -5,8 +5,8 @@ export const datastore = new DataStore({
   dbName: "offix-datasync",
   replicationConfig: {
     client: {
-      url: "http://localhost:5400/graphql",
-      wsUrl: "ws://localhost:5400/graphql",
+      url: "http://localhost:4000/graphql",
+      wsUrl: "ws://localhost:4000/graphql",
     },
     delta: { enabled: true, pullInterval: 20000 },
     mutations: { enabled: true },

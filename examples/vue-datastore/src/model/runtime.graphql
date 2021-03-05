@@ -14,7 +14,7 @@ type Todo {
   _version: String
   _lastUpdatedAt: GraphbackTimestamp
   """
-  @manyToOne(field: todos)
+  @manyToOne(field: 'todos')
   """
   user: User
 }
@@ -30,7 +30,7 @@ type User {
   _version: String
   _lastUpdatedAt: GraphbackTimestamp
   """
-  @oneToMany(field: user)
+  @oneToMany(field: 'user')
   """
   todos: [Todo]!
 }
