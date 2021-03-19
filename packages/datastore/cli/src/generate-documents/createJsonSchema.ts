@@ -32,7 +32,7 @@ const getModelProperties = (model: ModelDefinition, primaryKey: string) => {
     .map((r) => {
       const relationForeignKey = r.relationForeignKey;
       if (relationForeignKey == null)
-        throw Error("relationForeignKey is not found!");
+        {throw Error("relationForeignKey is not found!");}
       const fieldOptions = getFieldParameters(
         relationForeignKey,
         r.relationType
@@ -69,13 +69,13 @@ const getModelProperties = (model: ModelDefinition, primaryKey: string) => {
   generatedProperties._version = {
     type: "string",
     key: "_version",
-    isRequired: true,
+    isRequired: true
   };
 
   generatedProperties._lastUpdatedAt = {
     type: "number",
     key: "_lastUpdatedAt",
-    isRequired: true,
+    isRequired: true
   };
 
   return generatedProperties;
@@ -89,6 +89,6 @@ export const createJsonSchema = (model: ModelDefinition) => {
     version: 1,
     type: "object",
     primaryKey: primaryKey,
-    properties: getModelProperties(model, primaryKey),
+    properties: getModelProperties(model, primaryKey)
   };
 };
